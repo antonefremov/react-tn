@@ -49,7 +49,6 @@ function Image(props) {
 
 function BlogItem(props) {
   const {imageProps, spanText} = props
-  //const {src, width, height, alt} = {imageProps} ???
   return <div>
       <Image src={imageProps.src} width={imageProps.width} height={imageProps.height} alt={imageProps.altText}/>
       <br/>
@@ -57,33 +56,38 @@ function BlogItem(props) {
     </div>
 }
 
-class BlogList extends React.Component {
+class BlogContainer extends React.Component {
   constructor(props) {
-    super(props);
-    
+    super(props);    
     this.state = { blogs };
   }
   
   render() {
-    return DOM.ul(
+    const { blogs } = this.state;
+    return React.createElement(BlogList, { blogs });
+  }
+}
+
+const BlogList = ({ blogs }) => {
+  return DOM.ul(
       null,
       _.map(
-        this.state.blogs,
+        blogs,
         (blog, key) => (
           <BlogItem key={key} imageProps={blog.imageProps} spanText={blog.spanText}/>
         )
       )
     )
-  }
 }
 
 ReactDOM.render(
-  React.createElement(BlogList),
+  React.createElement(BlogContainer),
   document.getElementById('app')
 )
 
 
 //----------------------- please do litter below ----------------------------------------------
+//DOM.li({key}, blog.spanText.text)
 //const imageProps = {
 //  src: 'http://www.rd.com/wp-content/uploads/sites/2/2016/02/06-train-cat-shake-hands.jpg',
 //  width: '260px',
